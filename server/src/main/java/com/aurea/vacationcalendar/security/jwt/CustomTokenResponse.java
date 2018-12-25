@@ -5,6 +5,9 @@ import com.google.api.client.auth.oauth2.TokenResponse;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ *  Just a helper class to help deserialize {@link com.google.api.client.auth.oauth2.TokenResponse}
+ */
 @Getter
 @Setter
 @JsonIgnoreProperties (ignoreUnknown = true)

@@ -6,7 +6,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.aurea.vacationcalendar.domain.abstraction.abstractentity.AbstractEntity;
@@ -45,9 +44,7 @@ public class Vacation extends AbstractEntity {
   }
 
   @PostLoad
-  @Override
   public void postLoad() {
-    super.postLoad();
 
     if (isApproved()){
       this.status.put("message", Status.APPROVED.getStatusMessage());
@@ -56,8 +53,35 @@ public class Vacation extends AbstractEntity {
       this.status.put("message", Status.REJECTED.getStatusMessage());
       this.status.put("color", Status.REJECTED.getStatusColorCode());
     }else {
-      this.status.put("message", Status.NOT_APPROVED.getStatusMessage());
-      this.status.put("color", Status.NOT_APPROVED.getStatusColorCode());
+      this.status.put("message", Status.PENDING.getStatusMessage());
+      this.status.put("color", Status.PENDING.getStatusColorCode());
     }
   }
+
+  public enum Status {
+    APPROVED("APPROVED", "success"),
+    PENDING("PENDING", "danger"),
+    REJECTED("REJECTED", "danger");
+
+    private String statusMessage;
+    private String statusColorCode;
+
+    Status(String statusMessage, String statusColorCode) {
+      this.statusMessage = statusMessage;
+      this.statusColorCode = statusColorCode;
+    }
+
+    public String getStatusMessage() {
+      return statusMessage;
+    }
+
+    public String getStatusColorCode() {
+      return statusColorCode;
+    }
+
+    @Override
+    public String toString() {
+      return "Status{" + "statusMessage='" + statusMessage
+              + '\'' + ", statusColorCode='" + statusColorCode + '\'' + '}';
+    }}
 }

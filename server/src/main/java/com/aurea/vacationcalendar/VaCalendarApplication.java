@@ -44,8 +44,14 @@ public class VaCalendarApplication {
 	 */
 	private ApiInfo generateApiInfo()
 	{
-		return new ApiInfo("VaCalendar API", "Vacation Calendar APP, VaCalendar, provides a central point of entry and report of team members vacation plan.", "Version 0.0.1",
-						"urn:tos", new Contact("Kingsley Ezenwere", "http://", "kingsley.ezenwere(at)gmail.com"), "Apache 2.0", "http://www.apache.org/licenses/LICENSE-2.0", Collections.emptyList());
+		return new ApiInfo(
+						"VaCalendar API",
+						"Vacation Calendar APP, VaCalendar, provides a central point of entry and " +
+										"report of team members vacation plan.", "Version 0.0.1",
+						"urn:tos",
+						new Contact("Kingsley Ezenwere", "http://", "kingsley.ezenwere(at)gmail.com"),
+						"Apache 2.0", "http://www.apache.org/licenses/LICENSE-2.0",
+						Collections.emptyList());
 	}
 }
 

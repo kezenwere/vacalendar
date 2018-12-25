@@ -32,7 +32,7 @@ public final class Utils {
 
   public static User jsonString2UserObj(final String str) {
     try {
-      return new ObjectMapper().readValue(str, new TypeReference<User>() {});
+      return new ObjectMapper().findAndRegisterModules().readValue(str, new TypeReference<User>() {});
     } catch (IOException e) {
       throw new RuntimeException("Unable to parse request.", e);
     }
@@ -41,7 +41,7 @@ public final class Utils {
   public static TokenResponse jsonString2TokenResponseObj(String tokenResponseStr) {
     try {
       return ((CustomTokenResponse)
-              new ObjectMapper().readValue(tokenResponseStr,
+              new ObjectMapper().findAndRegisterModules().readValue(tokenResponseStr,
                       new TypeReference<CustomTokenResponse>() {})).buildTokenResponse();
     } catch (IOException e) {
       throw new RuntimeException("Unable to parse request.", e);

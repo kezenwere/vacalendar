@@ -2,6 +2,7 @@
 server/target/
 server/!.mvn/wrapper/maven-wrapper.jar
 server.gradle
+server/src/main/resources/static
 
 ### WEB ###
 web/.idea

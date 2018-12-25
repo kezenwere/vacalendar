@@ -2,11 +2,13 @@ package com.aurea.vacationcalendar.domain.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.aurea.vacationcalendar.domain.abstraction.abstractentity.AbstractEntity;
 import com.aurea.vacationcalendar.util.Utils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import lombok.Data;
@@ -52,9 +54,8 @@ public class User extends AbstractEntity {
     this.fullName = fullName;
   }
 
-  @Override
+  @PostLoad
   public void postLoad() {
-    super.postLoad();
 
     if (!StringUtils.hasText(this.fullName)) {
       this.fullName = (StringUtils.hasText(this.firstName) ? this.firstName + " " :
@@ -62,11 +63,8 @@ public class User extends AbstractEntity {
     }
   }
 
-  public TokenResponse getTokenResponse() {
+  @JsonIgnore
+  public TokenResponse getTokenResponseObj() {
     return Utils.jsonString2TokenResponseObj(tokenResponse);
-  }
-
-  public void setTokenResponse(String tokenResponse) {
-    this.tokenResponse = tokenResponse;
   }
 }

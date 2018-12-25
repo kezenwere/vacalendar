@@ -12,8 +12,8 @@ public class RequestErrorRedirectConfig implements WebServerFactoryCustomizer<Co
     @Override
     public void customize(final ConfigurableServletWebServerFactory factory) {
         factory.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/index"));
-        factory.addErrorPages(new ErrorPage(HttpStatus.UNAUTHORIZED, "/authorization-failure"));
-        factory.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, "/authorization-failure"));
-        factory.addErrorPages(new ErrorPage(HttpStatus.METHOD_NOT_ALLOWED, "/authorization-failure"));
+        factory.addErrorPages(new ErrorPage(HttpStatus.UNAUTHORIZED, "/index"));
+        factory.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, "/index"));
+        factory.addErrorPages(new ErrorPage(HttpStatus.METHOD_NOT_ALLOWED, "/index"));
     }
 }

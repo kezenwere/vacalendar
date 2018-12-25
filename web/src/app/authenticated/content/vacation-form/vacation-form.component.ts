@@ -40,13 +40,6 @@ export class VacationFormComponent implements OnInit {
     if (this.updating && this.vacationId) {
       this.update();
     } else {
-
-      const activeUser = this.authUtilService.getAuthSuccessToken();
-      this.vacation.user.email = activeUser.user.email;
-      this.vacation.user.firstName = activeUser.user.firstName;
-      this.vacation.user.lastName = activeUser.user.lastName;
-      this.vacation.user.managerEmail = activeUser.user.managerEmail;
-
       this.create();
     }
   }
@@ -58,6 +51,12 @@ export class VacationFormComponent implements OnInit {
           this.vacation = <Vacation> serverResponse.data;
         },
       );
+    } else {
+      const activeUser = this.authUtilService.getAuthSuccessToken().user;
+      this.vacation.user.email = activeUser.email;
+      this.vacation.user.firstName = activeUser.firstName;
+      this.vacation.user.lastName = activeUser.lastName;
+      this.vacation.user.managerEmail = activeUser.managerEmail;
     }
   }
 

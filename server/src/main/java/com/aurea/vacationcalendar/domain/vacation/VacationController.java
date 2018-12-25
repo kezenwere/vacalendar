@@ -41,7 +41,7 @@ public class VacationController {
   ///////////// CREATE ///////////////////////////////////////////////////////////////////////////////////
   @PostMapping ()
   public ResponseEntity<ServerResponse> create(
-          final @RequestBody Vacation vacation,
+          @RequestBody Vacation vacation,
           final HttpServletRequest request) {
 
     final Vacation _vacation = vacationService.create(vacation);

@@ -45,8 +45,8 @@ export class AuthUtilService {
   public setAuthSuccessToken(authSuccessToken: AuthSuccessToken) {
     console.log('setAuthSuccessToken authSuccessToken: ', authSuccessToken);
     this.authSuccessToken = authSuccessToken;
-    // this.localStorageService.setObj(AppConstantsService.COOKIE_AUTH_SUCCESS_TOKEN, authSuccessToken);
-    this.cookieService.setObj(AppConstantsService.COOKIE_AUTH_SUCCESS_TOKEN, authSuccessToken, this.USER_COOKIE_EXPIRES);
+    this.localStorageService.setObj(AppConstantsService.COOKIE_AUTH_SUCCESS_TOKEN, authSuccessToken);
+    // this.cookieService.setObj(AppConstantsService.COOKIE_AUTH_SUCCESS_TOKEN, authSuccessToken, this.USER_COOKIE_EXPIRES);
     // Set ActiveOrganizationId
     // this.setActiveOrganizationId(this.getAuthTokenDetails().organizationId);
     //
@@ -56,18 +56,22 @@ export class AuthUtilService {
   }
 
   public removeAuthSuccessToken() {
-    this.cookieService.delete(AppConstantsService.COOKIE_AUTH_SUCCESS_TOKEN)
-    // this.localStorageService.remove(AppConstantsService.COOKIE_AUTH_SUCCESS_TOKEN);
+    // this.cookieService.delete(AppConstantsService.COOKIE_AUTH_SUCCESS_TOKEN)
+    this.localStorageService.remove(AppConstantsService.COOKIE_AUTH_SUCCESS_TOKEN);
   }
 
   public isLoggedIn(): boolean {
     return !!this.getAuthSuccessToken();
   }
 
-  public  getAuthSuccessToken(): AuthSuccessToken {
+  public getAuthSuccessToken(): AuthSuccessToken {
     // if (!this.authSuccessToken.access_token) {
-    this.authSuccessToken = <AuthSuccessToken> this.cookieService.getObj(AppConstantsService.COOKIE_AUTH_SUCCESS_TOKEN);
-    // this.authSuccessToken = <AuthSuccessToken> this.localStorageService.getObj(AppConstantsService.COOKIE_AUTH_SUCCESS_TOKEN);
+    // this.authSuccessToken = <AuthSuccessToken> this.cookieService.getObj(AppConstantsService.COOKIE_AUTH_SUCCESS_TOKEN);
+    this.authSuccessToken = <AuthSuccessToken> this.localStorageService.getObj(AppConstantsService.COOKIE_AUTH_SUCCESS_TOKEN);
+
+    // if (!this.authSuccessToken) {
+    //   this.logoutUser();
+    // }
 
     console.log('getAuthSuccessToken authSuccessToken: ', this.authSuccessToken);
 

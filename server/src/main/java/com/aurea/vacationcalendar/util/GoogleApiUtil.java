@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.aurea.vacationcalendar.config.ServiceConfig;
+import com.aurea.vacationcalendar.config.AppConfig;
 import com.aurea.vacationcalendar.domain.vacation.Vacation;
 import com.aurea.vacationcalendar.security.ActiveAuditor;
 import com.google.api.client.auth.oauth2.Credential;
@@ -33,6 +33,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * The Google Calendar Api Service
+ */
 @Service
 public class GoogleApiUtil {
 
@@ -47,17 +50,22 @@ public class GoogleApiUtil {
   private static final String TIME_ZONE_LOS_ANGELES = "America/Los_Angeles";
   private static final String GENERAL_ERROR_MSG = "Unable to create Credential.";
   private static HttpTransport httpTransport;
-  private final ServiceConfig serviceConfig;
+  private final AppConfig appConfig;
   private final ActiveAuditor activeAuditor;
   private Set<Event> events = new HashSet<>();
   private GoogleAuthorizationCodeFlow authorizationCodeFlow;
 
   @Autowired
-  public GoogleApiUtil(ServiceConfig serviceConfig, ActiveAuditor activeAuditor) {
-    this.serviceConfig = serviceConfig;
+  public GoogleApiUtil(AppConfig appConfig, ActiveAuditor activeAuditor) {
+    this.appConfig = appConfig;
     this.activeAuditor = activeAuditor;
   }
 
+  /**
+   * Creates {@link Credential} from {@link TokenResponse}
+   * @param tokenResponse
+   * @return
+   */
   public Credential createCredential(TokenResponse tokenResponse) {
     try {
       return createAuthCodeFlow().createAndStoreCredential(tokenResponse, "userID");
@@ -68,6 +76,10 @@ public class GoogleApiUtil {
     return null;
   }
 
+  /**
+   * Creates the actual calendar event
+   * @param vacation
+   */
   public void createEvent(final Vacation vacation) {
 
     final Event event = new Event()
@@ -123,7 +135,7 @@ public class GoogleApiUtil {
   }
 
   private com.google.api.services.calendar.Calendar buildCalendarApiClient() {
-    final TokenResponse tokenResponse = activeAuditor.getUser().getTokenResponse();
+    final TokenResponse tokenResponse = activeAuditor.getUser().getTokenResponseObj();
     final Credential credential = createCredential(tokenResponse);
     return new com.google.api.services.calendar.Calendar.Builder(httpTransport, JSON_FACTORY, credential)
             .setApplicationName(APPLICATION_NAME).build();
@@ -132,7 +144,7 @@ public class GoogleApiUtil {
   public String buildAuthUrl() {
     return createAuthCodeFlow()
             .newAuthorizationUrl()
-            .setRedirectUri(serviceConfig.getGoogleRedirectURI())
+            .setRedirectUri(appConfig.getGoogleRedirectURI())
             .build().replace("%2B", "+");
   }
 
@@ -140,9 +152,9 @@ public class GoogleApiUtil {
     try {
       if (authorizationCodeFlow == null) {
         GoogleClientSecrets.Details web = new GoogleClientSecrets.Details()
-                .setAuthUri(serviceConfig.getGoogleUserAuthURI())
-                .setClientId(serviceConfig.getGoogleClientId())
-                .setClientSecret(serviceConfig.getGoogleClientSecret());
+                .setAuthUri(appConfig.getGoogleUserAuthURI())
+                .setClientId(appConfig.getGoogleClientId())
+                .setClientSecret(appConfig.getGoogleClientSecret());
 
         final GoogleClientSecrets clientSecrets = new GoogleClientSecrets().setWeb(web);
         httpTransport = GoogleNetHttpTransport.newTrustedTransport();
@@ -157,7 +169,7 @@ public class GoogleApiUtil {
   }
 
   public List<String> getScope() {
-    String scope = serviceConfig.getGoogleClientScope()
+    String scope = appConfig.getGoogleClientScope()
             .replace(",", "+").replace(" ", "");
 
     return Collections.unmodifiableList(Arrays.asList(scope));

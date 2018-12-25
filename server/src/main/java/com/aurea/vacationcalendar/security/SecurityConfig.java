@@ -20,6 +20,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          */
         http.headers().cacheControl().disable();
 
+        // Disable CSRF
+        http.csrf().disable();
+
         http.authorizeRequests()
             .antMatchers( "/api-doc", "/swagger-ui.html", "/swagger-resources/**").permitAll()
             .antMatchers(
@@ -28,12 +31,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/login/google",
                         "/v1/auth/**", "/auth/**",
 //                        "/**/auth/login**", "/**/auth/login**/**", // Login
-                        "/**.css", "/**.js", "/**.map", "/**.eot", "/**.ttf", "/**.woff", "/**.woff2", "/**.svg", "/**.ico",
+                        "/webjars/**", "/**.css", "/**.js", "/**.map", "/**.eot", "/**.ttf", "/**.woff", "/**.woff2", "/**.svg", "/**.ico",
                         "/assets/**",
                         "/vaCalendar-websocket/**", // Allow Websocket
                         "/portal/**" // Allow direct linking (from external links or browser refresh)
                 ).permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()//.authenticated()
                 .and()
                 .addFilterBefore(new JWTAuthenticationFilter(),
                         UsernamePasswordAuthenticationFilter.class);

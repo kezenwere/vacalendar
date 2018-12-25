@@ -1,14 +1,15 @@
 package com.aurea.vacationcalendar.domain.abstraction.abstractservice;
 
+import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.aurea.vacationcalendar.domain.abstraction.abstractentity.AbstractEntity;
 import com.aurea.vacationcalendar.exception.RequestedContentNotFoundException;
+import com.aurea.vacationcalendar.security.ActiveAuditor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,37 +32,15 @@ import org.springframework.util.StringUtils;
  * @author Kingsley Ezenwere
  * @since 0.0.1
  */
-public abstract class AbstractService<E extends AbstractEntity, D extends AbstractDao<E>> {
+public abstract class AbstractService<E extends AbstractEntity, D extends AbstractRepository<E>> {
 
   @Autowired
-  private D dao;
+  private D repo;
+  @Autowired
+  private ActiveAuditor activeAuditor;
 
   private Logger LOGGER = LoggerFactory.getLogger(AbstractService.class.getSimpleName());
 
-  public List<E> createAll(List<E> eList) {
-    List<E> _eList = new ArrayList<>();
-
-    // Avoid null pointer exception
-    if (eList == null) {
-      return _eList;
-    }
-
-    try {
-      eList = (List<E>) dao.saveAll(eList);
-    } catch (DataIntegrityViolationException | ConstraintViolationException ex) {
-      String errorMsg = MessageFormat.format(eList.get(0).EXISTED_MESSAGE, eList.get(0).getClass().getSimpleName());
-      LOGGER.error(errorMsg, ex);
-      throw new RuntimeException(errorMsg);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    return eList;
-  }
-
-  public List<E> updateAll(List<E> eList) {
-    return (List<E>) dao.saveAll(eList);
-  }
 
   public E upSert(E e) {
     return exists(e) ? update(e) : create(e);
@@ -72,12 +51,20 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
   }
 
   public E update(E e) {
-    return dao.save(e);
+    if (activeAuditor.getCurrentAuditor().isPresent()) {
+      e.setLastModifiedBy(activeAuditor.getCurrentAuditor().get());
+    }
+
+    return repo.save(e);
   }
 
   public E create(E e) {
     try {
-      e = dao.save(e);
+      if (activeAuditor.getCurrentAuditor().isPresent()) {
+        e.setCreatedBy(activeAuditor.getCurrentAuditor().get());
+      }
+
+      e = repo.save(e);
     } catch (DataIntegrityViolationException | ConstraintViolationException ex) {
       String errorMsg = MessageFormat.format(e.EXISTED_MESSAGE, e.getClass().getSimpleName());
       LOGGER.error(errorMsg, ex);
@@ -88,31 +75,15 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
   }
 
   public boolean exists(String eId) {
-    return !StringUtils.isEmpty(eId) && dao.existsById(eId);
+    return !StringUtils.isEmpty(eId) && repo.existsById(eId);
   }
 
   public List<E> getAll() {
-    return (List<E>) dao.findAll();
-  }
-
-
-  public Optional<E> activate(String eId) {
-
-    Optional<E> eOptional = getById(eId);
-
-    if (eOptional.isPresent()) {
-      E e = eOptional.get();
-      e.setActive(true);
-      e.setInactivatedDate(LocalDateTime.now());
-
-      return Optional.of(update(e));
-    }
-
-    return Optional.empty();
+    return (List<E>) repo.findAll();
   }
 
   public Optional<E> getById(String eId) {
-    return dao.findById(eId);
+    return repo.findById(eId);
   }
 
   public Optional<E> getByIdOrThrow(String eId) {
@@ -138,6 +109,9 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
       E e = eOptional.get();
       e.setDeleted(true);
       e.setDeletedDate(LocalDateTime.now());
+      if (activeAuditor.getCurrentAuditor().isPresent()) {
+        e.setDeletedBy(activeAuditor.getCurrentAuditor().get());
+      }
 
       return Optional.of(update(e));
     }
@@ -158,7 +132,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
       return e;
     }).collect(Collectors.toList());
 
-    dao.saveAll(_eList);
+    repo.saveAll(_eList);
   }
 
   public void hardDelete(E e) {
@@ -169,7 +143,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
     Optional<E> e = getById(eId);
 
     if (e.isPresent()) {
-      dao.delete(e.get());
+      repo.delete(e.get());
     }
   }
 
@@ -178,11 +152,11 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
     if (eList == null) {
       return;
     }
-    dao.deleteAll(eList);
+    repo.deleteAll(eList);
   }
 
   public long count() {
-    return dao.count();
+    return repo.count();
   }
 
   public abstract E update(String eId, E e);

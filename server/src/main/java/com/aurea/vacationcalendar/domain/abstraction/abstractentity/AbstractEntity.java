@@ -3,7 +3,6 @@ package com.aurea.vacationcalendar.domain.abstraction.abstractentity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
@@ -46,49 +45,25 @@ public abstract class AbstractEntity implements Serializable, Cloneable {
   public String LIST_NOT_FOUND_MESSAGE = "{0} List not found."; // No entity already existed
 
   @Id
-  @Column (updatable = false, nullable = false)
+  @Column (name = "id", updatable = false, nullable = false)
   protected String id;
-
+  @Column (name = "createdBy")
   protected String createdBy;
-  @Column (updatable = false)
+  @Column (name = "createdDate", updatable = false)
   protected LocalDateTime createdDate;
-
   @Version
-  @Column (nullable = false)
+  @Column (name = "version", nullable = false)
   protected int version = 0;
-
-  @Column (name = "")
+  @Column (name = "lastModifiedDate")
   protected LocalDateTime lastModifiedDate;
+  @Column (name = "lastModifiedBy")
   protected String lastModifiedBy;
-  protected String lastModifiedByIp;
-
-  @Column (nullable = false)
-  protected boolean active = true;
-
-  protected LocalDateTime activatedDate;
-  protected String activatedBy;
-  protected String activatedByIp;
-
-  protected LocalDateTime inactivatedDate;
-  protected String inactivatedBy;
-  protected String inactivatedByIp;
-
-  protected boolean archived;
-
-  protected LocalDateTime archivedDate;
-  protected String archivedBy;
-  protected String archivedByIp;
-
-  protected LocalDateTime unarchivedDate;
-  protected String unarchivedBy;
-  protected String unarchivedByIp;
-
+  @Column (name = "deleted")
   protected boolean deleted;
-
+  @Column (name = "deletedDate")
   protected LocalDateTime deletedDate;
+  @Column (name = "deletedBy")
   protected String deletedBy;
-  protected String deletedByIp;
-
   @Transient
   protected Map<String, String> status = new HashMap<>();
 
@@ -121,13 +96,17 @@ public abstract class AbstractEntity implements Serializable, Cloneable {
     return createdDate;
   }
 
-      public String getCreatedBy() {
-          return createdBy;
-      }
+  public void setCreatedDate(LocalDateTime createdDate) {
+    this.createdDate = createdDate;
+  }
 
-      public void setCreatedBy(String createdBy) {
-          this.createdBy = createdBy;
-      }
+  public String getCreatedBy() {
+    return createdBy;
+  }
+
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
 
   public int getVersion() {
     return version;
@@ -137,117 +116,14 @@ public abstract class AbstractEntity implements Serializable, Cloneable {
     return lastModifiedDate;
   }
 
-  public String getLastModifiedBy() {
-    return lastModifiedBy;
-  }
-
   public void setLastModifiedBy(String lastModifiedBy) {
     this.lastModifiedBy = lastModifiedBy;
   }
 
-  public String getLastModifiedByIp() {
-    return lastModifiedByIp;
+  public String getLastModifiedBy() {
+    return lastModifiedBy;
   }
 
-  public void setLastModifiedByIp(String lastModifiedByIp) {
-    this.lastModifiedByIp = lastModifiedByIp;
-  }
-
-  public LocalDateTime getActivatedDate() {
-    return activatedDate;
-  }
-
-  public void setActivatedDate(LocalDateTime activatedDate) {
-    this.activatedDate = activatedDate;
-  }
-
-  public String getActivatedBy() {
-    return activatedBy;
-  }
-
-  public void setActivatedBy(String activatedBy) {
-    this.activatedBy = activatedBy;
-  }
-
-  public String getActivatedByIp() {
-    return activatedByIp;
-  }
-
-  public void setActivatedByIp(String activatedByIp) {
-    this.activatedByIp = activatedByIp;
-  }
-
-  public LocalDateTime getInactivatedDate() {
-    return inactivatedDate;
-  }
-
-  public void setInactivatedDate(LocalDateTime inactivatedDate) {
-    this.inactivatedDate = inactivatedDate;
-  }
-
-  public String getInactivatedBy() {
-    return inactivatedBy;
-  }
-
-  public void setInactivatedBy(String inactivatedBy) {
-    this.inactivatedBy = inactivatedBy;
-  }
-
-  public String getInactivatedByIp() {
-    return inactivatedByIp;
-  }
-
-  public void setInactivatedByIp(String inactivatedByIp) {
-    this.inactivatedByIp = inactivatedByIp;
-  }
-
-  public LocalDateTime getArchivedDate() {
-    return archivedDate;
-  }
-
-  public void setArchivedDate(LocalDateTime archivedDate) {
-    this.archivedDate = archivedDate;
-  }
-
-  public String getArchivedBy() {
-    return archivedBy;
-  }
-
-  public void setArchivedBy(String archivedBy) {
-    this.archivedBy = archivedBy;
-  }
-
-  public String getArchivedByIp() {
-    return archivedByIp;
-  }
-
-  public void setArchivedByIp(String archivedByIp) {
-    this.archivedByIp = archivedByIp;
-  }
-
-  public LocalDateTime getUnarchivedDate() {
-    return unarchivedDate;
-  }
-
-  public void setUnarchivedDate(LocalDateTime unarchivedDate) {
-    this.unarchivedDate = unarchivedDate;
-  }
-
-  public String getUnarchivedBy() {
-    return unarchivedBy;
-  }
-
-  public void setUnarchivedBy(String unarchivedBy) {
-    this.unarchivedBy = unarchivedBy;
-  }
-
-  public String getUnarchivedByIp() {
-    return unarchivedByIp;
-  }
-
-  public void setUnarchivedByIp(String unarchivedByIp) {
-    this.unarchivedByIp = unarchivedByIp;
-  }
 
   public LocalDateTime getDeletedDate() {
     return deletedDate;
@@ -265,115 +141,15 @@ public abstract class AbstractEntity implements Serializable, Cloneable {
     this.deletedBy = deletedBy;
   }
 
-  public String getDeletedByIp() {
-    return deletedByIp;
-  }
-
-  public void setDeletedByIp(String deletedByIp) {
-    this.deletedByIp = deletedByIp;
-  }
-
   public Map getStatus() {
     return status;
-  }
-
-  @PostLoad
-  public void postLoad() {
-
-    // Set Status
-    if (isDeleted()) {
-      this.status.put("message", Status.DELETED.getStatusMessage());
-      this.status.put("color", Status.DELETED.getStatusColorCode());
-
-    } else if (isArchived()) {
-      this.status.put("message", Status.ARCHIVED.getStatusMessage());
-      this.status.put("color", Status.ARCHIVED.getStatusColorCode());
-    } else if (isActive()) {
-      this.status.put("message", Status.ACTIVE.getStatusMessage());
-      this.status.put("color", Status.ACTIVE.getStatusColorCode());
-
-    } else if (!isActive()) {
-      this.status.put("message", Status.IN_ACTIVE.getStatusMessage());
-      this.status.put("color", Status.IN_ACTIVE.getStatusColorCode());
-
-    } else {
-      this.status.put("message", Status.UNKNOWN.getStatusMessage());
-      this.status.put("color", Status.UNKNOWN.getStatusColorCode());
-
-    }
-
-  }
-
-  public boolean isDeleted() {
-    return deleted;
-  }
-
-  public boolean isArchived() {
-    return archived;
-  }
-
-  public boolean isActive() {
-    return active;
-  }
-
-  public void setActive(boolean active) {
-    this.active = active;
-  }
-
-  public void setArchived(boolean archived) {
-    this.archived = archived;
   }
 
   public void setDeleted(boolean deleted) {
     this.deleted = deleted;
   }
 
-  public Object clone() {
-    try {
-      return super.clone();
-    } catch (CloneNotSupportedException e) {
-      e.printStackTrace();
-    }
-    return null;
+  public boolean isDeleted() {
+    return deleted;
   }
-
-  /**
-   * @author Kingsley Ezenwere
-   * @since 0.0.1
-   */
-  public enum Status {
-    APPROVED("APPROVED", "success"),
-    NOT_APPROVED("NOT APPROVED", "danger"),
-    REJECTED("REJECTED", "danger"),
-
-    ACTIVE("ACTIVE", "success"),
-    IN_ACTIVE("IN-ACTIVE", "danger"),
-    LOCKED("LOCKED", "danger"),
-    DELETED("DELETED", "danger"),
-    UNKNOWN("STATUS UNKNOWN", "danger"),
-    ARCHIVED("ARCHIVED", "danger"),
-    SENT("SENT", "success"),
-    DRAFTED("DRAFTED", "success"),
-    SCHEDULED("SCHEDULED", "success");
-
-    private String statusMessage;
-    private String statusColorCode;
-
-    Status(String statusMessage, String statusColorCode) {
-      this.statusMessage = statusMessage;
-      this.statusColorCode = statusColorCode;
-    }
-
-    public String getStatusMessage() {
-      return statusMessage;
-    }
-
-    public String getStatusColorCode() {
-      return statusColorCode;
-    }
-
-    @Override
-    public String toString() {
-      return "Status{" + "statusMessage='" + statusMessage + '\'' + ", statusColorCode='" + statusColorCode + '\'' + '}';
-    }}
 }

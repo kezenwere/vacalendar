@@ -23,7 +23,12 @@ export class HttpRegularInterceptorService implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const clonedReq = this.addHeaders(req, this.authUtilService.getAuthSuccessToken());
+    const  authToken = this.authUtilService.getAuthSuccessToken();
+    if (!authToken) {
+      this.authUtilService.logoutUser();
+    }
+
+    const clonedReq = this.addHeaders(req, authToken);
     const started = Date.now();
 
     console.log('REQUEST: ', clonedReq);

@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Arrays;
 
-import com.aurea.vacationcalendar.config.ServiceConfig;
+import com.aurea.vacationcalendar.config.AppConfig;
 import com.aurea.vacationcalendar.domain.ServerResponse;
 import com.aurea.vacationcalendar.domain.user.User;
 import com.aurea.vacationcalendar.domain.user.UserService;
@@ -32,7 +32,7 @@ public class AuthController {
   private final static String ORG_ID = "aurea.com";
   private static com.google.api.services.calendar.Calendar client;
   private final JwtUtil jwtUtil;
-  private final ServiceConfig serviceConfig;
+  private final AppConfig appConfig;
   private final UserService userService;
   private final GoogleApiUtil googleApiUtil;
   private ServerResponse sResponse;
@@ -41,11 +41,11 @@ public class AuthController {
   @Autowired
   public AuthController(
           JwtUtil jwtUtil,
-          ServiceConfig serviceConfig,
+          AppConfig appConfig,
           UserService userService,
           GoogleApiUtil googleApiUtil) {
     this.jwtUtil = jwtUtil;
-    this.serviceConfig = serviceConfig;
+    this.appConfig = appConfig;
     this.userService = userService;
     this.googleApiUtil = googleApiUtil;
   }
@@ -85,7 +85,7 @@ public class AuthController {
 
       response = googleApiUtil.createAuthCodeFlow()
               .newTokenRequest(authCode)
-              .setRedirectUri(serviceConfig.getGoogleRedirectURI())
+              .setRedirectUri(appConfig.getGoogleRedirectURI())
               .setScopes(Arrays.asList("profile")) // Just a Dummy, don't remove
               .execute();
     } catch (IOException e) {
@@ -94,13 +94,13 @@ public class AuthController {
       LOG.trace(errMsg + " Trace: {}", e);
       throw new RuntimeException(errMsg);
     }
-    String tokenResponseStr = Utils.objToJsonString(response);
 
+    // Capture the returned user from Google Api, and store it locally
+    String tokenResponseStr = Utils.objToJsonString(response);
     final Credential credential = googleApiUtil.createCredential(response);
     final User user = userService.createIfNotExisted(credential, tokenResponseStr);
 
-    TokenResponse tokenResponse = Utils.jsonString2TokenResponseObj(tokenResponseStr);
-    AuthSuccessToken authSuccessToken = new AuthSuccessToken(JwtUtil.createJwtTokenObjParam(response), user);
+    AuthSuccessToken authSuccessToken = new AuthSuccessToken(JwtUtil.createJwtTokenObjParam(user), user);
 
     authSuccessToken.setOrganizationId(ORG_ID);
     sResponse = new ServerResponse(authSuccessToken, request);

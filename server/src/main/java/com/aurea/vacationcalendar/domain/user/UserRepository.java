@@ -1,8 +1,8 @@
 package com.aurea.vacationcalendar.domain.user;
 
-import com.aurea.vacationcalendar.domain.abstraction.abstractservice.AbstractDao;
+import com.aurea.vacationcalendar.domain.abstraction.abstractservice.AbstractRepository;
 
-public interface UserRepository extends AbstractDao<User> {
+public interface UserRepository extends AbstractRepository<User> {
   User findByExtId(String extId);
   User findByEmail(String email);
 }

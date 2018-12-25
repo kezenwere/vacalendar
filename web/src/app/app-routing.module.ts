@@ -23,7 +23,8 @@ const appRoutes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(
-    appRoutes, { enableTracing: true } /* TODO: <-- debugging purposes only */)],
+    appRoutes, // { enableTracing: true } /* <-- debugging purposes only */
+  )],
   exports: [RouterModule],
   declarations: [
     PageNotFoundErrorComponent

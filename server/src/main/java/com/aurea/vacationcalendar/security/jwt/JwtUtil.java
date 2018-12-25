@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.Date;
 
-import com.aurea.vacationcalendar.config.ServiceConfig;
+import com.aurea.vacationcalendar.config.AppConfig;
 import com.aurea.vacationcalendar.domain.user.User;
 import com.aurea.vacationcalendar.util.Utils;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -25,18 +25,18 @@ import org.springframework.util.StringUtils;
 @Component
 public class JwtUtil {
   private final static Logger log = LoggerFactory.getLogger(JwtUtil.class);
-  private final ServiceConfig serviceConfig;
+  private final AppConfig appConfig;
   public final static long JWT_TOKEN_EXPIRES_MILLIS =  1000 * 60 * 60 * 24 * 20; // 20Days
   private static String JWT_SIGNING_KEY = "";
   private static String JWT_PREFIX = "";
   private static String JWT_HEADER_KEY = "";
 
   @Autowired
-  public JwtUtil(final ServiceConfig serviceConfig) {
-    this.serviceConfig = serviceConfig;
-    JWT_SIGNING_KEY = serviceConfig.getJwtSigningKey();
-    JWT_PREFIX = serviceConfig.getJwtPrefix();
-            JWT_HEADER_KEY = serviceConfig.getJwtHeaderParamKey();
+  public JwtUtil(final AppConfig appConfig) {
+    this.appConfig = appConfig;
+    JWT_SIGNING_KEY = appConfig.getJwtSigningKey();
+    JWT_PREFIX = appConfig.getJwtPrefix();
+            JWT_HEADER_KEY = appConfig.getJwtHeaderParamKey();
   }
 
   public static String createJwtTokenObjParam(final Object subject) {
@@ -77,6 +77,7 @@ public class JwtUtil {
     if (StringUtils.hasText(jwtToken) && validateToken(jwtToken)) {
       return buildAuthentication(jwtToken, request);
     }
+
     return null;
   }
 

@@ -12,6 +12,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
+/**
+ * Per request filter to enforce Authorization
+ */
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
     @Override

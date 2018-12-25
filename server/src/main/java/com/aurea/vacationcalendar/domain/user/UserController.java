@@ -39,11 +39,11 @@ public class UserController {
   @PostMapping ()
   public ResponseEntity<ServerResponse> create(final @RequestBody User user, final HttpServletRequest request) {
 
-    User _user = userService.create(user);
+    User existingUser = userService.create(user);
 
     //    eventPublisher.publishEvent(new OnUsersModifiedEvent(new EventObj(EventObj.EventType.CREATE.getType(), _user), this.getClass()));
 
-    sResponse = new ServerResponse(_user, request);
+    sResponse = new ServerResponse(existingUser, request);
 
     return new ResponseEntity<>(sResponse, HttpStatus.CREATED);
   }
@@ -71,6 +71,7 @@ public class UserController {
     }
 
   }
+
   ///////////// UPDATE ///////////////////////////////////////////////////////////////////////////////////
   @PutMapping ("{userId}")
   public ResponseEntity<ServerResponse> update(
@@ -86,6 +87,7 @@ public class UserController {
 
     return new ResponseEntity<>(sResponse, HttpStatus.OK);
   }
+
   ///////////// DELETE ///////////////////////////////////////////////////////////////////////////////////
   @DeleteMapping ("{userId}")
   public ResponseEntity<ServerResponse> delete(

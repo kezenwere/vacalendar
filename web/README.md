@@ -1,4 +1,6 @@
-# Web
+## Innovation Task Submission (Kingsley Ezenwere)
+
+# Web: This project is the frontend application for vaCalendar, the Vacation Calendar. 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.3.
 
