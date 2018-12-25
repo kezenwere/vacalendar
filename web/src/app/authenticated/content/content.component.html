@@ -1,0 +1,50 @@
+<mat-card style="height: 90vh;">
+  <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-bottom: 8px;">
+    <div *ngIf="!showActionBtns">
+      <!--A DUMMY, just to balance the view-->
+    </div>
+    <div fxLayoutGap="4px" *ngIf="showActionBtns">
+      <button mat-raised-button (click)="approveSelectedVacations()" [disabled]="!activateVacationActionBtns()">
+        Approve
+      </button>
+      <button mat-raised-button color="accent" (click)="rejectSelectedVacations()"
+              [disabled]="!activateVacationActionBtns()">
+        Reject
+      </button>
+      <button mat-raised-button color="warn" (click)="deleteSelectedVacations()"
+              [disabled]="!activateVacationActionBtns()">
+        Delete
+      </button>
+    </div>
+
+    <mat-form-field>
+      <input matInput [type]="'text'" placeholder="Search..." #quickFilter
+             (keyup)="onQuickFilterChanged(quickFilter.value)" name="quickFilter">
+    </mat-form-field>
+
+    <div>
+      <mat-form-field>
+        <mat-select class="full-width" placeholder="Choose view" (valueChange)="navigateToView(navigateTo.value)"
+                    #navigateTo>
+          <mat-option [value]="'calendar-view'">
+            Calendar view
+          </mat-option>
+          <mat-option [value]="'table-view'">
+            Table view
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <router-outlet></router-outlet>
+
+  <footer class="tab-actions right-bottom">
+    <button style="" mat-fab color="accent" (click)="openVacationFormForNew()"
+            matTooltip="Add vacation."
+            [matTooltipPosition]="'right'">
+      <i class="fa fa-plus"></i>
+    </button>
+  </footer>
+
+</mat-card>

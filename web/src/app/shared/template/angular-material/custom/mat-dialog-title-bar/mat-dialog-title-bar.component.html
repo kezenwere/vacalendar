@@ -1,0 +1,15 @@
+<div mat-dialog-title
+     appDraggable
+     dragHandle=".drag-handle"
+     dragTarget=".mat-dialog-container"
+     fxLayout="row"
+     fxLayoutAlign="space-between center"
+     class="drag-handle"
+     style="background-color: #ccc; margin: -24px -24px auto -24px; padding: 8px; cursor: move">
+  <span>{{ title }}</span>
+  <div>
+    <i class="fa fa-expand canExpand" [class.text-muted]="!canExpand" (click)="expand()" [matTooltip]="canExpand ? 'Expand' : ''"></i>
+    <i class="fa fa-arrows-alt canFullScreen" [class.text-muted]="!canFullScreen" (click)="fullScreen()" [matTooltip]="canFullScreen ? 'Fullscreen' : ''"></i>
+    <i class="fa fa-window-close canClose" [class.text-muted]="!canClose" (click)="close()" [matTooltip]="canClose ? 'Close' : ''"></i>
+  </div>
+</div>

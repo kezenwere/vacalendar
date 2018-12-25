@@ -1,0 +1,19 @@
+// Paging
+@import url("~ag-grid-community/dist/styles/ag-grid.css");
+@import url("~ag-grid-community/dist/styles/ag-theme-fresh.css");
+
+.ag-paging-page-summary-panel{
+  float: right;
+}
+.btn-grid{
+  padding: 2px 9px !important;
+  font-size: 11px !important;
+  line-height: 13px !important;
+}
+.link .ag-row{
+  cursor: pointer;
+}
+
+.take-attendance-row-height{
+  line-height: 4;
+}

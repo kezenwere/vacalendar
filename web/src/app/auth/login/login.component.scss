@@ -1,0 +1,22 @@
+//:host{
+//  width: 100%;
+//  height: 100%;
+//}
+//
+//.logo-link{
+//  margin-bottom: 100px;
+//  opacity: 0.3;
+//  transition-duration: 300ms;
+//}
+//
+//.logo-link:hover {
+//  opacity: 1;
+//}
+
+.card {
+  max-width: 400px;
+
+  .header-image {
+    background-size: cover;
+  }
+}

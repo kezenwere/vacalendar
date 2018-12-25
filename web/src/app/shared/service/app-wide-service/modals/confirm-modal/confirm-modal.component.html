@@ -1,0 +1,8 @@
+<mat-card style="padding-top: 24px !important;">
+  <span [outerHTML]="message"></span>
+</mat-card>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-around center">
+  <button mat-raised-button color="primary" (click)="yesClicked()">Yes</button>
+  <button mat-raised-button mat-dialog-close color="accent" (click)="noClicked()">No</button>
+</mat-dialog-actions>
+

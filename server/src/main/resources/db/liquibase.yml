@@ -1,0 +1,25 @@
+#url: jdbc:mysql://localhost:3308/churchrun?createDatabaseIfNotExist=true&verifyServerCertificate=false&useSSL=false&requireSSL=false
+#username: root
+#password:
+#driver: com.mysql.jdbc.Driver
+#outputChangeLogFile: src/main/java/com/appodus/churchrun/db/changelog/db.changelog-1.0.0.xml
+
+url: jdbc:mysql://localhost:3308/vaCalendar_dormy?createDatabaseIfNotExist=true&verifyServerCertificate=false&useSSL=false&requireSSL=false&serverTimezone=UTC
+username: root
+password:
+driver: com.mysql.jdbc.Driver
+
+referenceUrl: jdbc:mysql://localhost:3308/vaCalendar?createDatabaseIfNotExist=true&verifyServerCertificate=false&useSSL=false&requireSSL=false&serverTimezone=UTC
+diffChangeLogFile: src/main/resources/db/changelog/db.changelog-1.0.0.xml
+referenceDriver: com.mysql.jdbc.Driver
+referenceUsername: root
+referencePassword:
+
+changeLogFile: classpath:liquibase-changeLog.xml
+#url: jdbc:mysql://localhost:3308/churchrun?createDatabaseIfNotExist=true&verifyServerCertificate=false&useSSL=false&requireSSL=false
+#username: root
+#password:
+#driver: com.mysql.jdbc.Driver
+#referenceUrl: hibernate:spring:com.appodus.churchrun.domain?dialect=org.hibernate.dialect.MySQL5Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+#diffChangeLogFile: src/main/resources/liquibase-diff-changeLog.
+#mvn liquibase:diff

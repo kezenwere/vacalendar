@@ -1,0 +1,18 @@
+
+.form-control-group-container {
+  position: relative;
+
+  h3 {
+    margin: 20px 0px 5px 0px;
+    &.form-control-group-label {
+      color: #dddddd;
+      background-color: #fff;
+      padding: 4px 0px 0px 0px;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+  }
+  hr{
+    margin: 2px 0px 4px 0px;
+  }
+}

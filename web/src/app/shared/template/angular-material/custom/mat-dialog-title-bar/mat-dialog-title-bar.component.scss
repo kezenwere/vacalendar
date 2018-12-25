@@ -1,0 +1,17 @@
+.container{
+  background-color: #ccc;
+  margin: -24px -24px auto -24px;
+  padding: 8px;
+}
+
+i{
+  margin-left: 8px;
+
+  &:not(.text-muted){
+    cursor: pointer;
+  }
+  &.canClose:hover{
+    color: #a94442;
+  }
+}
+

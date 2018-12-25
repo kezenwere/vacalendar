@@ -1,0 +1,8 @@
+<mat-card fxLayout="column" fxLayoutAlign="space-around center">
+  <i *ngIf="status == 'ban'; else others" class="fa fa-ban fa-3x text-danger"></i>
+  <ng-template #others>
+    <i class="fa fa-check-square-o fa-3x text-success"></i>
+  </ng-template>
+  <br />
+  <span [outerHTML]="message"></span>
+</mat-card>

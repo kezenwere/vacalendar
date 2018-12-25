@@ -1,0 +1,18 @@
+<mat-toolbar>
+  <div>
+  <span>vaCalendar</span>
+    <button mat-icon-button>
+      <i class="fa fa-calendar-plus-o"></i>
+      <!--<i class="fa fa-ellipsis-v fa-2x"></i>-->
+    </button>
+  </div>
+
+  <span class="flex-grow"></span>
+
+  <div>
+    <span>hi, {{ userFirstName }}</span>
+    <button mat-icon-button matTooltip="Logout" (click)="logOutActiveUser()">
+      <i class="fa fa-sign-out"></i>
+    </button>
+  </div>
+</mat-toolbar>

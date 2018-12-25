@@ -1,0 +1,73 @@
+<section class="page-section" draggable>
+  <app-mat-dialog-title-bar
+    [title]="headerTitle"
+    [dialogRef]="dialogRef"
+    [navigateOnClose]="false"
+    [canExpand]="false"
+    [canFullScreen]="false"
+    [canClose]="true">
+
+  </app-mat-dialog-title-bar>
+
+  <form #vacationForm="ngForm" (ngSubmit)="formAction($event)">
+    <div *ngIf="errorMessages" class="alert alert-danger" role="alert">
+      <strong>Oh snap! </strong> {{ errorMessages }}
+    </div>
+    <mat-card style="height: 89%; overflow-y: auto;">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <mat-form-field>
+          <input matInput type="text" placeholder="First name" [(ngModel)]="vacation.user.firstName" name="firstName"
+                 required>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Last name (surname)" [(ngModel)]="vacation.user.lastName" name="lastName"
+                 required>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px">
+        <mat-form-field class="example-full-width">
+          <input matInput type="email" email placeholder="Your email" [(ngModel)]="vacation.user.email" name="email" required>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput type="email" email placeholder="Your manager's email" [(ngModel)]="vacation.user.managerEmail" name="managerEmail" required>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <mat-form-field>
+          <input matInput
+                 (click)="vacationStartDatePicker.open()"
+                 [matDatepicker]="vacationStartDatePicker"
+                 placeholder="Start date"
+                 [(ngModel)]="vacation.startDate"
+                 name="vacationStartDate"
+                 readonly required
+          >
+          <mat-datepicker-toggle matSuffix [for]="vacationStartDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #vacationStartDatePicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput
+                 (click)="vacationEndDatePicker.open()"
+                 [matDatepicker]="vacationEndDatePicker"
+                 placeholder="End date"
+                 [(ngModel)]="vacation.endDate"
+                 name="vacationEndDate"
+                 readonly required
+          >
+          <mat-datepicker-toggle matSuffix [for]="vacationEndDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #vacationEndDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center" class="form-button-set">
+      <div></div>
+      <div>
+        <button mat-raised-button color="primary" [type]="'submit'" [disabled]="!formIsValid(vacationForm)">
+          {{ actionBtnText }}
+        </button>
+        <button mat-raised-button color="warn" [type]="'reset'" mat-dialog-close>Cancel</button>
+      </div>
+    </mat-dialog-actions>
+  </form>
+</section>
