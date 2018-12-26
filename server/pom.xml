@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.aurea</groupId>
-    <artifactId>vacation-calendar</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>vacalendar</artifactId>
+    <version>0.0.1</version>
     <name>VaCalendar</name>
     <description>VaCalendar provides a central point of entry and report of team members vacation plan.</description>
 
@@ -20,6 +20,10 @@
         <google.api.calendar.version>v3-rev364-1.25.0</google.api.calendar.version>
         <jjwt.version>0.9.0</jjwt.version>
         <google.api.oauth2.version>v2-rev141-1.25.0</google.api.oauth2.version>
+
+        <docker.image.name>aurea/${project.artifactId}</docker.image.name>
+        <docker.image.tag>${project.version}</docker.image.tag>
+        <dockerfile-maven-version>1.3.7</dockerfile-maven-version>
     </properties>
 
     <dependencies>
@@ -94,26 +98,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.security</groupId>-->
-            <!--<artifactId>spring-security-jwt</artifactId>-->
-            <!--<version>1.0.9.RELEASE</version>-->
-        <!--</dependency>-->
         <dependency><!--// PARSE JWT TOKEN-->
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>${jjwt.version}</version>
         </dependency>
-
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-security</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.security.oauth.boot</groupId>-->
-        <!--<artifactId>spring-security-oauth2-autoconfigure</artifactId>-->
-        <!--<version>${spring-security-oauth2-autoconfigure.version}</version>-->
-        <!--</dependency>-->
 
         <!--// GOOGLE API-->
         <dependency>
@@ -128,10 +117,10 @@
         </dependency>
 
         <!--WEBSOCKET-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-websocket</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
 
     </dependencies>
     <build>
@@ -148,6 +137,58 @@
                 <configuration>
                     <propertyFile>src/main/resources/db/liquibase.yml</propertyFile>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>${dockerfile-maven-version}</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>tag</id>
+                        <goals>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <repository>${docker.image.name}</repository>
+                            <tag>${docker.image.tag}</tag>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <!-- here the phase you need -->
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/src/main/resources/templates/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>
+                                        ${basedir}/src/main/resources/static/
+                                    </directory>
+                                    <includes>
+                                        <include>index.html</include>
+                                    </includes>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import com.aurea.vacationcalendar.domain.user.User;
 import com.aurea.vacationcalendar.domain.user.UserService;
 import com.aurea.vacationcalendar.security.ActiveAuditor;
-import com.aurea.vacationcalendar.util.GoogleApiUtil;
+import com.aurea.vacationcalendar.security.auth.GoogleApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,25 +21,34 @@ public class VacationServiceDefault extends VacationService {
   private final VacationRepository vacationRepository;
   private final UserService userService;
   private final ActiveAuditor activeAuditor;
-  private final GoogleApiUtil googleApiUtil;
+  private final GoogleApiService googleApiService;
 
   @Autowired
   public VacationServiceDefault(
           VacationRepository vacationRepository,
           UserService userService,
           ActiveAuditor activeAuditor,
-          GoogleApiUtil googleApiUtil) {
+          GoogleApiService googleApiService) {
     this.vacationRepository = vacationRepository;
     this.userService = userService;
     this.activeAuditor = activeAuditor;
-    this.googleApiUtil = googleApiUtil;
+    this.googleApiService = googleApiService;
   }
 
   @Override
   public Vacation create(final Vacation vacation) {
-    User user = userService.upSert(vacation.getUser());
-    vacation.setUser(user);
+    User newUser = vacation.getUser();
+    User existingUser = userService.getByExtId(newUser.getExtId());
 
+    User user = null;
+    if( existingUser == null){
+      user = userService.create(newUser);
+    } else {
+      user = userService.update(existingUser.getId(), newUser);
+    }
+
+    vacation.setUser(user);
+    vacation.setAssignedApproverEmail(user.getManagerEmail());
     return super.create(vacation);
   }
 
@@ -69,6 +78,13 @@ public class VacationServiceDefault extends VacationService {
       throw new UnsupportedOperationException(CANT_REJECT_APPROVED);
     }
 
+    if (activeAuditor.getCurrentAuditor().isPresent()){
+      String activeUserEmail = activeAuditor.getCurrentAuditor().get();
+      _vacation.setRejectedBy(activeUserEmail);
+    }
+
+    _vacation.setRejectedTime(LocalDateTime.now());
+
     _vacation.setRejected(true);
     return super.update(_vacation);
   }
@@ -81,17 +97,23 @@ public class VacationServiceDefault extends VacationService {
       throw new UnsupportedOperationException(CANT_APPROVE_REJECTED);
     }
 
+    if (activeAuditor.getCurrentAuditor().isPresent()){
+      String activeUserEmail = activeAuditor.getCurrentAuditor().get();
+      _vacation.setApprovedBy(activeUserEmail);
+    }
+
+    _vacation.setApprovedTime(LocalDateTime.now());
     _vacation.setApproved(true);
     return super.update(_vacation);
   }
 
   @Override
   public Page<Vacation > getAllNonDeletedPaginated(final Pageable pageable) {
-    return vacationRepository.findByDeletedFalse(pageable);
+    return vacationRepository.findByDeletedFalseOrderByStartTime(pageable);
   }
 
   @Override
   public void calendarNotify(final Vacation vacation) {
-      googleApiUtil.createEvent(vacation);
+      googleApiService.createEvent(vacation);
   }
 }

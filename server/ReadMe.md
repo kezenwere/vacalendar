@@ -1,5 +1,5 @@
-## Innovation Task Submission (Kingsley Ezenwere)
-# Server: This project is the backend RESTful Service for vaCalendar, the Vacation Calendar. 
+# Innovation Task Submission (Kingsley Ezenwere)
+## Server: This project is the backend RESTful Service for vaCalendar, the Vacation Calendar. 
 
 
 ## Core Features
@@ -18,6 +18,7 @@ Sends Google Calendar Notification:
 ## System Requirements
 * Java 8
 * Mysql >= 5.6
+* Maven >= 3.5
 
 ## Before Building and Running the application
 * Make sure to move the built frontend artifacts to the "src/main/resources/static" folder
@@ -27,10 +28,11 @@ Sends Google Calendar Notification:
 * Once in the project folder, run the following, in the given order.
   
        // TO BUILD
-       > mvn clean package
+       > mvn clean process-resources package
        
-       // TO RUN (Follow the console prompt.)
-       > java -jar target/vaCalendar.jar
+       // TO RUN (Follow any of the two. No.2 require Docker to be running on your loal system)
+       1. > java -jar target/vaCalendar.jar
+       2. > docker-compose -f docker/common/docker-compose.yml up
        
        // TO Web View (On your browser)
        http://localhost:9000

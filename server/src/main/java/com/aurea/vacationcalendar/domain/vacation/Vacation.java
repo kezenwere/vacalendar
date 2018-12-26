@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 import java.time.LocalDateTime;
 
-import com.aurea.vacationcalendar.domain.abstraction.abstractentity.AbstractEntity;
+import com.aurea.vacationcalendar.domain.common.abstractentity.AbstractEntity;
 import com.aurea.vacationcalendar.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -26,14 +26,18 @@ public class Vacation extends AbstractEntity {
   private LocalDateTime startTime;
   @Column (name="endTime")
   private LocalDateTime endTime;
+  @Column(name = "approved")
+  private boolean approved;
   @Column (name="approvedBy")
   private String approvedBy;
   @Column (name="approvedTime")
   private LocalDateTime approvedTime;
-  @Column(name = "approved")
-  private boolean approved;
   @Column(name = "rejected")
   private boolean rejected;
+  @Column (name="rejectedBy")
+  private String rejectedBy;
+  @Column (name="rejectedTime")
+  private LocalDateTime rejectedTime;
   @Column(name = "assigned_approver_email")
   private String assignedApproverEmail;
   @Column(name = "expired")

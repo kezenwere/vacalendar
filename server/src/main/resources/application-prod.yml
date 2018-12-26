@@ -1,0 +1,13 @@
+spring:
+    datasource:
+        url: jdbc:mysql://Mysql_Db/vaCalendar?createDatabaseIfNotExist=true&verifyServerCertificate=false&useSSL=false&requireSSL=false&serverTimezone=UTC
+        username: root
+        password: secret-password
+        driverClassName: com.mysql.jdbc.Driver
+    jpa:
+        hibernate:
+            ddl-auto: none
+        show-sql: false
+
+
+

@@ -7,8 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableAutoConfiguration
-public class
-WebConfig implements WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer {
 
     /**
      * Enables Caching of Resources

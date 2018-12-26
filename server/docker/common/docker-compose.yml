@@ -1,0 +1,23 @@
+version: '3'
+services:
+
+  Mysql_Db:
+      image: mysql:5.6.42
+      command: --default-authentication-plugin=mysql_native_password
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: "secret-password"
+
+  vaCalendar:
+       image: aurea/vacalendar:0.0.1
+       restart: always
+       ports:
+         - "9000:80"
+       depends_on:
+         - 'Mysql_Db'
+       links:
+         - "Mysql_Db:Mysql_Db"
+       environment:
+         SERVER_PORT: "9000"
+         PROFILE: "prod"
+         MYSQL_DB_PASSWORD: "secret-password"

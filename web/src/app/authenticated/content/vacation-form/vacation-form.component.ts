@@ -53,6 +53,7 @@ export class VacationFormComponent implements OnInit {
       );
     } else {
       const activeUser = this.authUtilService.getAuthSuccessToken().user;
+      this.vacation.user.extId = activeUser.extId;
       this.vacation.user.email = activeUser.email;
       this.vacation.user.firstName = activeUser.firstName;
       this.vacation.user.lastName = activeUser.lastName;

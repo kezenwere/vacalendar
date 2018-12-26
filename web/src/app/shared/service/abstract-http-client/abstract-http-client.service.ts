@@ -192,29 +192,29 @@ export class AbstractHttpClientService<T> {
 
     return JSON.stringify(obj);
   }
-
-  private extractData(res: Response) {
-    console.log('Server response: ', res)
-    const jwtToken = res.headers.get(AppConstantsService.JWT_HEADER_NAME);
-    console.log('token: ', jwtToken)
-    saveJwtToken(jwtToken);
-    saveLastActiveTime();
-    const body = res.json() || {};
-    const response: ServerResponse = new ServerResponse();
-    response.data = body;
-    return response;
-
-    function saveJwtToken(token: string) {
-      if (token && token.startsWith(AppConstantsService.JWT_PREFIX)) {
-        localStorage.setItem(AppConstantsService.JWT_HEADER_NAME, JSON.stringify(token));
-      }
-    }
-
-    function saveLastActiveTime() {
-      const date = new Date().getTime();
-      localStorage.setItem(AppConstantsService.LAST_ACTIVE_TIME, JSON.stringify(date));
-    }
-  }
+  //
+  // private extractData(res: Response) {
+  //   console.log('Server response: ', res)
+  //   const jwtToken = res.headers.get(AppConstantsService.JWT_HEADER_NAME);
+  //   console.log('token: ', jwtToken)
+  //   saveJwtToken(jwtToken);
+  //   saveLastActiveTime();
+  //   const body = res.json() || {};
+  //   const response: ServerResponse = new ServerResponse();
+  //   response.data = body;
+  //   return response;
+  //
+  //   function saveJwtToken(token: string) {
+  //     if (token && token.startsWith(AppConstantsService.JWT_PREFIX)) {
+  //       localStorage.setItem(AppConstantsService.JWT_HEADER_NAME, JSON.stringify(token));
+  //     }
+  //   }
+  //
+  //   function saveLastActiveTime() {
+  //     const date = new Date().getTime();
+  //     localStorage.setItem(AppConstantsService.LAST_ACTIVE_TIME, JSON.stringify(date));
+  //   }
+  // }
 
   private handleError(error: Response | any) {
     console.log('Error response: ', error)

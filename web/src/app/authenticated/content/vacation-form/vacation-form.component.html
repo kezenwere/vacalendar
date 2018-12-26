@@ -38,7 +38,7 @@
                  (click)="vacationStartDatePicker.open()"
                  [matDatepicker]="vacationStartDatePicker"
                  placeholder="Start date"
-                 [(ngModel)]="vacation.startDate"
+                 [(ngModel)]="vacation.startTime"
                  name="vacationStartDate"
                  readonly required
           >
@@ -50,7 +50,7 @@
                  (click)="vacationEndDatePicker.open()"
                  [matDatepicker]="vacationEndDatePicker"
                  placeholder="End date"
-                 [(ngModel)]="vacation.endDate"
+                 [(ngModel)]="vacation.endTime"
                  name="vacationEndDate"
                  readonly required
           >

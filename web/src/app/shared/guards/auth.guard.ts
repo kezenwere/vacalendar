@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     console.log('In AuthGuard...')
     const url: string = state.url;
 
-    // ONLY WHILE DEBUGGING
+    // ONLY WHILE DEBUGGING / DEV
     if (window.location.toString().indexOf('localhost:4200') !== -1) {
       return true;
     }

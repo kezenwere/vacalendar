@@ -10,8 +10,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public final class Utils {
+
+  private static final Log LOG = LogFactory.getLog(Utils.class);
+  private static final String PARSE_EXP = "Unable to parse request.";
+  public final static String ORG_ID = "aurea.com";
 
   private Utils() {
     throw new UnsupportedOperationException("This class cannot be instantiated!");
@@ -21,12 +26,12 @@ public final class Utils {
     return request.getRequestURL().toString();
   }
 
-
   public static String objToJsonString(final Object obj) {
     try {
       return new ObjectMapper().findAndRegisterModules().writeValueAsString(obj);
     } catch (JsonProcessingException e) {
-      throw new RuntimeException("Unable to parse request.", e);
+      handleException(LOG, PARSE_EXP, e);
+      return null;
     }
   }
 
@@ -34,7 +39,8 @@ public final class Utils {
     try {
       return new ObjectMapper().findAndRegisterModules().readValue(str, new TypeReference<User>() {});
     } catch (IOException e) {
-      throw new RuntimeException("Unable to parse request.", e);
+      handleException(LOG, PARSE_EXP, e);
+      return null;
     }
   }
 
@@ -44,7 +50,8 @@ public final class Utils {
               new ObjectMapper().findAndRegisterModules().readValue(tokenResponseStr,
                       new TypeReference<CustomTokenResponse>() {})).buildTokenResponse();
     } catch (IOException e) {
-      throw new RuntimeException("Unable to parse request.", e);
+      handleException(LOG, PARSE_EXP, e);
+      return null;
     }
   }
 

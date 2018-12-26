@@ -27,21 +27,17 @@ import org.springframework.web.bind.annotation.RestController;
 @Api (value="Users", description="Operations pertaining to users.")
 public class UserController {
   private final UserService userService;
-  private final ApplicationEventPublisher eventPublisher;
   private ServerResponse sResponse;
 
   @Autowired
-  public UserController(final UserService userService, final ApplicationEventPublisher eventPublisher) {
+  public UserController(final UserService userService) {
     this.userService = userService;
-    this.eventPublisher = eventPublisher;
   }
   ///////////// CREATE ///////////////////////////////////////////////////////////////////////////////////
   @PostMapping ()
   public ResponseEntity<ServerResponse> create(final @RequestBody User user, final HttpServletRequest request) {
 
     User existingUser = userService.create(user);
-
-    //    eventPublisher.publishEvent(new OnUsersModifiedEvent(new EventObj(EventObj.EventType.CREATE.getType(), _user), this.getClass()));
 
     sResponse = new ServerResponse(existingUser, request);
 
@@ -59,7 +55,8 @@ public class UserController {
   }
 
   @GetMapping("{userId}")
-  public ResponseEntity<ServerResponse> getById(final @PathVariable ("userId") String userId, final HttpServletRequest request) {
+  public ResponseEntity<ServerResponse> getById(
+          final @PathVariable ("userId") String userId, final HttpServletRequest request) {
     Optional<User> userOptional = userService.getById(userId);
 
     if (userOptional.isPresent()) {
@@ -81,8 +78,6 @@ public class UserController {
 
     User updatedUser = userService.update(userId, user);
 
-    //    eventPublisher.publishEvent(new OnUsersModifiedEvent(new EventObj(EventObj.EventType.UPDATE.getType(), updatedUser), this.getClass()));
-
     sResponse = new ServerResponse(updatedUser, request);
 
     return new ResponseEntity<>(sResponse, HttpStatus.OK);
@@ -95,8 +90,6 @@ public class UserController {
           final HttpServletRequest request) {
 
     Optional<User> userOptional = userService.delete(userId);
-
-    //    eventPublisher.publishEvent(new OnUsersModifiedEvent(new EventObj(EventObj.EventType.DELETE.getType(), deletedUser), this.getClass()));
 
     sResponse = new ServerResponse(userOptional.get(), request);
 

@@ -1,4 +1,4 @@
-package com.aurea.vacationcalendar.domain.abstraction.abstractentity;
+package com.aurea.vacationcalendar.domain.common.abstractentity;
 
 import javax.persistence.Column;
 import javax.persistence.Id;

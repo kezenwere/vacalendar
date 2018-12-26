@@ -12,28 +12,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class OnVacationModifiedEventHandler implements ApplicationListener<OnVacationModifiedEvent> {
 
-    private final SimpMessagingTemplate simpMessagingTemplate;
-    private final VacationService vacationService;
+  private final SimpMessagingTemplate simpMessagingTemplate;
+  private final VacationService vacationService;
 
-    @Autowired
-    public OnVacationModifiedEventHandler(final SimpMessagingTemplate simpMessagingTemplate,
-                                          final VacationService vacationService) {
-        this.simpMessagingTemplate = simpMessagingTemplate;
-        this.vacationService = vacationService;
-    }
+  @Autowired
+  public OnVacationModifiedEventHandler(final SimpMessagingTemplate simpMessagingTemplate, final VacationService vacationService) {
+    this.simpMessagingTemplate = simpMessagingTemplate;
+    this.vacationService = vacationService;
+  }
 
-    @Override
-    public void onApplicationEvent(final OnVacationModifiedEvent e) {
-        setCalendarNotifications(e);
-        reportEvent(e);
-    }
+  @Override
+  public void onApplicationEvent(final OnVacationModifiedEvent e) {
+    setCalendarNotifications(e);
+    reportEvent(e);
+  }
 
-    private void setCalendarNotifications(final OnVacationModifiedEvent e) {
-        vacationService.calendarNotify((Vacation) e.getEventObj().getObject());
+  private void setCalendarNotifications(final OnVacationModifiedEvent e) {
+    if (e.getEventObj().getEventType() == EventObj.EventType.APPROVE) {
+      vacationService.calendarNotify((Vacation) e.getEventObj().getObject());
     }
-    private void reportEvent(final OnVacationModifiedEvent e) {
-        EventObj eventObj = e.getEventObj().annulObj(); // DON'T SEND OBJ, SET TO NULL
+  }
 
-        simpMessagingTemplate.convertAndSend("/topic/vacations/modified", eventObj);
-    }
+  private void reportEvent(final OnVacationModifiedEvent e) {
+    EventObj eventObj = e.getEventObj().annulObj(); // DON'T SEND OBJ, SET TO NULL
+
+    simpMessagingTemplate.convertAndSend("/topic/vacations/modified", eventObj);
+  }
 }

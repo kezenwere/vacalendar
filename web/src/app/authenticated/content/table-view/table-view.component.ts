@@ -122,12 +122,14 @@ export class TableViewComponent implements OnInit, AfterViewInit {
           row.id = vacation.id;
           row.fullName = vacation.user.fullName;
           row.email = vacation.user.email;
-          row.startDate = vacation.startDate;
-          row.endDate = vacation.endDate;
+          row.startTime = vacation.startTime;
+          row.endTime = vacation.endTime;
           row.status = vacation.status;
           row.createdDate = vacation.createdDate;
           row.approvedBy = vacation.approvedBy;
-          row.approvedDate = vacation.approvedDate;
+          row.approvedTime = vacation.approvedTime;
+          row.rejectedBy = vacation.rejectedBy;
+          row.rejectedTime = vacation.rejectedTime;
           row.canEdit = this.canEdit(vacation);
           rows.push(row);
         });
@@ -163,27 +165,31 @@ export class TableViewComponent implements OnInit, AfterViewInit {
       },
       {
         headerName: 'Start date',
-        field: 'startDate',
+        field: 'startTime',
         filter: 'text',
         cellRendererFramework: GridRendererDateComponent,
+        width: 120,
       },
       {
         headerName: 'End date',
-        field: 'endDate',
+        field: 'endTime',
         filter: 'text',
         cellRendererFramework: GridRendererDateComponent,
+        width: 120,
       },
       {
         headerName: 'Status',
         field: 'status',
         filter: 'text',
         cellRendererFramework: GridRendererStatusComponent,
+        width: 120,
       },
       {
         headerName: 'Date created',
         field: 'createdDate',
         filter: 'text',
         cellRendererFramework: GridRendererDateComponent,
+        width: 120,
       },
       {
         headerName: 'Approved by',
@@ -193,9 +199,23 @@ export class TableViewComponent implements OnInit, AfterViewInit {
       },
       {
         headerName: 'Approved date',
-        field: 'approvedDate',
+        field: 'approvedTime',
         filter: 'text',
         cellRendererFramework: GridRendererDateComponent,
+        width: 120,
+      },
+      {
+        headerName: 'Rejected by',
+        field: 'rejectedBy',
+        filter: 'text',
+        cellRendererFramework: GridRendererDefaultComponent,
+      },
+      {
+        headerName: 'Rejected date',
+        field: 'rejectedTime',
+        filter: 'text',
+        cellRendererFramework: GridRendererDateComponent,
+        width: 120,
       },
     ];
 

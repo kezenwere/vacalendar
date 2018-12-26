@@ -75,7 +75,7 @@ public class JwtUtil {
 
     System.out.println("getAuthenticationFromHeader: " + jwtToken);
     if (StringUtils.hasText(jwtToken) && validateToken(jwtToken)) {
-      return buildAuthentication(jwtToken, request);
+      return buildAuthentication(jwtToken);
     }
 
     return null;
@@ -117,7 +117,7 @@ public class JwtUtil {
 
     return null;
   }
-  public static Authentication buildAuthentication(final String jwtToken, final HttpServletRequest request) {
+  public static Authentication buildAuthentication(final String jwtToken) {
     // parse the token.
     final String subject = (String) getSubject(jwtToken);
     final User user = Utils.jsonString2UserObj(subject);

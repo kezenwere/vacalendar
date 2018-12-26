@@ -1,13 +1,12 @@
-package com.aurea.vacationcalendar.domain.abstraction.abstractservice;
+package com.aurea.vacationcalendar.domain.common.abstractservice;
 
-import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.aurea.vacationcalendar.domain.abstraction.abstractentity.AbstractEntity;
+import com.aurea.vacationcalendar.domain.common.abstractentity.AbstractEntity;
 import com.aurea.vacationcalendar.exception.RequestedContentNotFoundException;
 import com.aurea.vacationcalendar.security.ActiveAuditor;
 import org.hibernate.exception.ConstraintViolationException;

@@ -1,6 +1,6 @@
 package com.aurea.vacationcalendar.domain.user;
 
-import com.aurea.vacationcalendar.domain.abstraction.abstractservice.AbstractService;
+import com.aurea.vacationcalendar.domain.common.abstractservice.AbstractService;
 import com.google.api.client.auth.oauth2.Credential;
 
 public abstract class UserService extends AbstractService<User, UserRepository> {

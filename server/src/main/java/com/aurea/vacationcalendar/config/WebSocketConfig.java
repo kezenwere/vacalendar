@@ -19,7 +19,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/vacalendar-websocket").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/vacalendar-websocket")
+                .setAllowedOrigins("*") // TODO: SET TO SPECIFIC VALUE
+                .withSockJS();
     }
 
 }

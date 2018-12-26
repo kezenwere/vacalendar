@@ -1,6 +1,6 @@
 package com.aurea.vacationcalendar.domain.vacation;
 
-import com.aurea.vacationcalendar.domain.abstraction.abstractservice.AbstractService;
+import com.aurea.vacationcalendar.domain.common.abstractservice.AbstractService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

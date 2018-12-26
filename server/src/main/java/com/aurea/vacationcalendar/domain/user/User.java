@@ -6,12 +6,11 @@ import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.aurea.vacationcalendar.domain.abstraction.abstractentity.AbstractEntity;
+import com.aurea.vacationcalendar.domain.common.abstractentity.AbstractEntity;
 import com.aurea.vacationcalendar.util.Utils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.api.client.auth.oauth2.TokenResponse;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

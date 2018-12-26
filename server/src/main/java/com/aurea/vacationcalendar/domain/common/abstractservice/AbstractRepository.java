@@ -1,6 +1,6 @@
-package com.aurea.vacationcalendar.domain.abstraction.abstractservice;
+package com.aurea.vacationcalendar.domain.common.abstractservice;
 
-import com.aurea.vacationcalendar.domain.abstraction.abstractentity.AbstractEntity;
+import com.aurea.vacationcalendar.domain.common.abstractentity.AbstractEntity;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**

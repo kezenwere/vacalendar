@@ -33,13 +33,21 @@ public class UserServiceDefault extends UserService {
     return existingUser;
   }
 
+  public User updateUserInfo(String userId, User user) {
+    User existingUser = getByIdOrThrow(userId).get();
+    existingUser.setFirstName(user.getFirstName());
+    existingUser.setLastName(user.getLastName());
+    existingUser.setEmail(user.getEmail());
+
+    return existingUser;
+  }
 
   @Override
   public User createIfNotExisted(final Credential credential, String tokenResponseStr) {
     final User userInfo = getUserInfo(credential);
     final User existingUser = getByExtId(userInfo.getExtId());
 
-    final User user = existingUser == null ? super.create(userInfo) : existingUser;
+    final User user = existingUser == null ? super.create(userInfo) : updateUserInfo(existingUser.getId(), userInfo);
 
     user.setTokenResponse(tokenResponseStr);
 
@@ -66,8 +74,8 @@ public class UserServiceDefault extends UserService {
     return new User(
             userInfo.getId(),
             userInfo.getEmail(),
-            userInfo.getFamilyName(),
             userInfo.getGivenName(),
+            userInfo.getFamilyName(),
             userInfo.getName()
     );
   }
