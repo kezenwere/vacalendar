@@ -1,64 +1,7 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet author="kEzenwere (generated)" id="1545753884669-1">
-        <createTable tableName="user">
-            <column name="id" type="VARCHAR(255)">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="created_by" type="VARCHAR(255)"/>
-            <column name="created_date" type="datetime"/>
-            <column name="deleted" type="BIT(1)"/>
-            <column name="deleted_by" type="VARCHAR(255)"/>
-            <column name="deleted_date" type="datetime"/>
-            <column name="last_modified_by" type="VARCHAR(255)"/>
-            <column name="last_modified_date" type="datetime"/>
-            <column name="version" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="email" type="VARCHAR(255)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="ext_id" type="VARCHAR(255)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="first_name" type="VARCHAR(255)"/>
-            <column name="last_name" type="VARCHAR(255)"/>
-            <column name="manager_email" type="VARCHAR(255)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="kEzenwere (generated)" id="1545753884669-2">
-        <createTable tableName="vacation">
-            <column name="id" type="VARCHAR(255)">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="created_by" type="VARCHAR(255)"/>
-            <column name="created_date" type="datetime"/>
-            <column name="deleted" type="BIT(1)"/>
-            <column name="deleted_by" type="VARCHAR(255)"/>
-            <column name="deleted_date" type="datetime"/>
-            <column name="last_modified_by" type="VARCHAR(255)"/>
-            <column name="last_modified_date" type="datetime"/>
-            <column name="version" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="approved" type="BIT(1)"/>
-            <column name="approved_by" type="VARCHAR(255)"/>
-            <column name="approved_time" type="datetime"/>
-            <column name="assigned_approver_email" type="VARCHAR(255)"/>
-            <column name="end_time" type="datetime"/>
-            <column name="expired" type="BIT(1)"/>
-            <column name="rejected" type="BIT(1)"/>
-            <column name="start_time" type="datetime"/>
-            <column name="user_id" type="VARCHAR(255)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="kEzenwere (generated)" id="1545753884669-3">
-        <createIndex indexName="FK66w7spv7nptavgkgh7m6up8kr" tableName="vacation">
-            <column name="user_id"/>
-        </createIndex>
-    </changeSet>
-    <changeSet author="kEzenwere (generated)" id="1545895488669-1">
+    <changeSet author="kEzenwere (generated)" id="1545900137909-1">
         <createTable tableName="user">
             <column name="id" type="VARCHAR(255)">
                 <constraints primaryKey="true"/>
@@ -85,7 +28,7 @@
             <column name="member_type" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="kEzenwere (generated)" id="1545895488669-2">
+    <changeSet author="kEzenwere (generated)" id="1545900137909-2">
         <createTable tableName="vacation">
             <column name="id" type="VARCHAR(255)">
                 <constraints primaryKey="true"/>
@@ -113,12 +56,12 @@
             <column name="rejected_time" type="datetime"/>
         </createTable>
     </changeSet>
-    <changeSet author="kEzenwere (generated)" id="1545895488669-3">
+    <changeSet author="kEzenwere (generated)" id="1545900137909-3">
         <createIndex indexName="FK66w7spv7nptavgkgh7m6up8kr" tableName="vacation">
             <column name="user_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="kEzenwere (generated)" id="1545895488669-4">
+    <changeSet author="kEzenwere (generated)" id="1545900137909-4">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="vacation" constraintName="FK66w7spv7nptavgkgh7m6up8kr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
     </changeSet>
 </databaseChangeLog>
