@@ -35,6 +35,8 @@ public class User extends AbstractEntity {
   private String fullName;
   @Column (name="managerEmail")
   private String managerEmail;
+  @Column (name="memberType")
+  private String memberType;
   @Transient
   private String tokenResponse;
 

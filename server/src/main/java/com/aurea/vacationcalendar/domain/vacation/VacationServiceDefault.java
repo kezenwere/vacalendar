@@ -1,6 +1,7 @@
 package com.aurea.vacationcalendar.domain.vacation;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import com.aurea.vacationcalendar.domain.user.User;
 import com.aurea.vacationcalendar.domain.user.UserService;
@@ -17,6 +18,8 @@ public class VacationServiceDefault extends VacationService {
   private final static String CANT_MODIFY_STARTED = "You cannot modify a vacation that has started.";
   private final static String CANT_REJECT_APPROVED = "You cannot reject an already approved vacation.";
   private final static String CANT_APPROVE_REJECTED = "You cannot approve an already rejected vacation.";
+  private final static String CANT_DELETE_STARTED_APPROVED_OR_REJECTED =
+          "You cannot delete an already started, approved or rejected vacation.";
 
   private final VacationRepository vacationRepository;
   private final UserService userService;
@@ -33,6 +36,19 @@ public class VacationServiceDefault extends VacationService {
     this.userService = userService;
     this.activeAuditor = activeAuditor;
     this.googleApiService = googleApiService;
+  }
+
+  @Override
+  public Optional<Vacation> delete(String vacationId) {
+    Vacation _vacation = getByIdOrThrow(vacationId).get();
+
+    if (_vacation.getStartTime().isBefore(LocalDateTime.now()) ||
+            _vacation.isApproved() ||
+            _vacation.isRejected()){
+      throw new UnsupportedOperationException(CANT_DELETE_STARTED_APPROVED_OR_REJECTED);
+    }
+
+    return super.delete(_vacation.getId());
   }
 
   @Override

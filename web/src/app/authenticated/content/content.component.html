@@ -3,6 +3,8 @@
     <div *ngIf="!showActionBtns">
       <!--A DUMMY, just to balance the view-->
     </div>
+
+    <div fxLayoutGap="8px" fxLayoutAlign="space-between center">
     <div fxLayoutGap="4px" *ngIf="showActionBtns">
       <button mat-raised-button (click)="approveSelectedVacations()" [disabled]="!activateVacationActionBtns()">
         Approve
@@ -14,6 +16,11 @@
       <button mat-raised-button color="warn" (click)="deleteSelectedVacations()"
               [disabled]="!activateVacationActionBtns()">
         Delete
+      </button>
+    </div>
+      <button mat-raised-button color="primary" (click)="exportVacations()"
+              [disabled]="!activateVacationActionBtns()">
+        Export <i class="fa fa-file-excel-o"></i>
       </button>
     </div>
 

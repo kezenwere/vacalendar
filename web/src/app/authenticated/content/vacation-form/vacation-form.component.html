@@ -17,24 +17,24 @@
       <div fxLayout="row" fxLayoutAlign="space-between center">
         <mat-form-field>
           <input matInput type="text" placeholder="First name" [(ngModel)]="vacation.user.firstName" name="firstName"
-                 required>
+              readonly  required>
         </mat-form-field>
         <mat-form-field>
           <input matInput type="text" placeholder="Last name (surname)" [(ngModel)]="vacation.user.lastName" name="lastName"
-                 required>
+               readonly required>
         </mat-form-field>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px">
-        <mat-form-field class="example-full-width">
-          <input matInput type="email" email placeholder="Your email" [(ngModel)]="vacation.user.email" name="email" required>
+        <mat-form-field class="">
+          <input matInput type="email" email placeholder="Your email" [(ngModel)]="vacation.user.email" name="email" readonly required>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="">
           <input matInput type="email" email placeholder="Your manager's email" [(ngModel)]="vacation.user.managerEmail" name="managerEmail" required>
         </mat-form-field>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center">
         <mat-form-field>
-          <input matInput
+          <input [min]="today" matInput
                  (click)="vacationStartDatePicker.open()"
                  [matDatepicker]="vacationStartDatePicker"
                  placeholder="Start date"
@@ -46,7 +46,7 @@
           <mat-datepicker #vacationStartDatePicker></mat-datepicker>
         </mat-form-field>
         <mat-form-field>
-          <input matInput
+          <input [min]="today > vacation.startTime ? today : vacation.startTime" matInput
                  (click)="vacationEndDatePicker.open()"
                  [matDatepicker]="vacationEndDatePicker"
                  placeholder="End date"
@@ -58,6 +58,16 @@
           <mat-datepicker #vacationEndDatePicker></mat-datepicker>
         </mat-form-field>
       </div>
+      <mat-form-field class="full-width">
+        <mat-select placeholder="Member type"  name="category">
+          <mat-option>
+            {{ "Manager" }}
+          </mat-option>
+          <mat-option>
+            {{ "Engineer" }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </mat-card>
 
     <mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center" class="form-button-set">

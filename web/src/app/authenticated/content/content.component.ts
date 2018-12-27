@@ -4,7 +4,7 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
 import {VacationFormComponent} from './vacation-form/vacation-form.component';
 import {VacationService} from './vacation-form/service/vacation.service';
 import {AppWideService} from '../../shared/service/app-wide-service/app-wide.service';
-import {of} from 'rxjs/index';
+import * as  FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-content',
@@ -129,5 +129,59 @@ export class ContentComponent implements OnInit {
           });
         }
       });
+  }
+
+  exportVacations() {
+
+    const rows = [];
+    let columns = [];
+
+    columns.push('Full Name');
+    columns.push('Email');
+    columns.push('Start Time');
+    columns.push('End Time');
+    columns.push('Status');
+    columns.push('Created Time');
+    columns.push('Approved By');
+    columns.push('Approved Time');
+    columns.push('Rejected By');
+    columns.push('Rejected Time');
+
+    rows.push(columns.join(','));
+    columns = []
+
+    columns.push('');
+    columns.push('');
+    columns.push('');
+    columns.push('');
+    columns.push('');
+    columns.push('');
+    columns.push('');
+    columns.push('');
+    columns.push('');
+    columns.push('');
+
+    rows.push(columns.join(','));
+    columns = [];
+
+    this.appWideService.getSelectedVacationRows().forEach((row: any) => {
+      columns.push(row.fullName);
+      columns.push(row.email);
+      columns.push(row.startTime);
+      columns.push(row.endTime);
+      columns.push(row.status.message);
+      columns.push(row.createdDate);
+      columns.push(row.approvedBy);
+      columns.push(row.approvedTime);
+      columns.push(row.rejectedBy);
+      columns.push(row.rejectedTime);
+
+      rows.push(columns.join(','));
+      columns = [];
+    });
+
+    const blob = new Blob([rows.join('\r\n')], {type: 'application/text'});
+    FileSaver.saveAs(blob, 'vaCalendar.csv');
+
   }
 }

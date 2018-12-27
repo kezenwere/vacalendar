@@ -1,5 +1,8 @@
 package com.aurea.vacationcalendar.config.filter;
 
+import static com.aurea.vacationcalendar.util.Utils.DEV_ENDPOINT;
+import static com.aurea.vacationcalendar.util.Utils.PROD_ENDPOINT;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +38,7 @@ public class AppOncePerRequestFilter extends OncePerRequestFilter {
 
     private void doCorsFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Origin", DEV_ENDPOINT);
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "POST, PATCH, GET, PUT, OPTIONS, DELETE");
         response.setHeader("Access-Control-Allow-Headers",

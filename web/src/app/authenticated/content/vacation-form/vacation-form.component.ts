@@ -18,6 +18,7 @@ export class VacationFormComponent implements OnInit {
   actionBtnText = 'Create';
   vacationId: string;
   updating = false;
+  today = new Date();
 
   constructor(private vacationService: VacationService,
               public dialogRef: MatDialogRef<VacationFormComponent>,

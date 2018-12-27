@@ -15,7 +15,7 @@ export class AuthUtilService {
 
   USER_COOKIE_EXPIRES = 60 * 24; // 1 day
 
-  authSuccessToken: AuthSuccessToken = new AuthSuccessToken();
+  private authSuccessToken: AuthSuccessToken = new AuthSuccessToken();
   public redirectUrl: string
   private http: HttpClient;
 

@@ -1,5 +1,8 @@
 package com.aurea.vacationcalendar.config;
 
+import static com.aurea.vacationcalendar.util.Utils.DEV_ENDPOINT;
+import static com.aurea.vacationcalendar.util.Utils.PROD_ENDPOINT;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -20,7 +23,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/vacalendar-websocket")
-                .setAllowedOrigins("*") // TODO: SET TO SPECIFIC VALUE
+                .setAllowedOrigins(PROD_ENDPOINT, DEV_ENDPOINT)
                 .withSockJS();
     }
 

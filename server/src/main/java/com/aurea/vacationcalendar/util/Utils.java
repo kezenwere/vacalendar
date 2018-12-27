@@ -16,7 +16,9 @@ public final class Utils {
 
   private static final Log LOG = LogFactory.getLog(Utils.class);
   private static final String PARSE_EXP = "Unable to parse request.";
-  public final static String ORG_ID = "aurea.com";
+  public static final String ORG_ID = "aurea.com";
+  public static final String DEV_ENDPOINT = "http://localhost:4200";
+  public static final String PROD_ENDPOINT = "http://localhost:9000";
 
   private Utils() {
     throw new UnsupportedOperationException("This class cannot be instantiated!");

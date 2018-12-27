@@ -153,14 +153,6 @@ export class AbstractHttpClientService<T> {
 
   ////////////////////////////////// HELPER METHODS /////////////////////////////////
   private buildRequestOptions(params?: HttpParams, headers?: HttpHeaders): Object {
-    // const jwtToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdhbml6YXRpb25JZCI6IsO2cmdJZDIxMjM0NDQiLCJ1c2VyX25hbWUiOiJraW5nc2xleSIsInNjb3BlIjpbIndlYmNsaWVudCJdLCJleHAiOjE1MjM3NzY4MzYsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJqdGkiOiIwNmRmYzRiYS04MDBjLTQyN2YtYWRiOC00NTRmN2NlNzZmM2EiLCJjbGllbnRfaWQiOiJjaHVyY2hydW5jbGllbnQifQ.WEei8rG61T-kt5wvZZ67cvHxVGYw80QE3Ssb3bJXJxA';
-    // console.log('jwtToken: ', jwtToken)
-    // const params = new HttpParams();
-    // const headers = new HttpHeaders({
-    //   // 'Content-Type': this.ContentType,
-    //   // 'Authorization': jwtToken,
-    // });
-
     const httpOptions = {
       params: params,
       headers: headers,
