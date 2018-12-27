@@ -21,6 +21,7 @@ Sends Google Calendar Notification:
 * Maven >= 3.5
 
 ## Before Building and Running the application
+* Make sure you have docker running
 * Make sure to move the built frontend artifacts to the "src/main/resources/static" folder
 * Change the file "src/main/resources/templates/index.html" with the "index.html" from the built frontend artifacts
 * Change the database connection details accordingly in the file "src/main/resources/application.yml"
